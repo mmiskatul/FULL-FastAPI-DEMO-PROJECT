@@ -1,21 +1,21 @@
 from transformers import pipeline
 
 generator = pipeline(
-    "text-generation",
-    model="EleutherAI/gpt-j-6B",
-    device=0 if False else -1  # CPU demo
+    "text2text-generation",
+    model="google/flan-t5-small",
+    device=-1  # CPU
 )
 
 def generate_listing(title, description):
     prompt = f"""
-    Product: {title}
-    Description: {description}
+Generate:
+- Amazon SEO title
+- 3 bullet points
+- TikTok caption
 
-    Generate:
-    1. Amazon SEO title
-    2. 5 bullet points
-    3. Viral TikTok caption
-    """
+Product title: {title}
+Description: {description}
+"""
 
-    result = generator(prompt, max_length=250, do_sample=True)
+    result = generator(prompt, max_length=150)
     return result[0]["generated_text"]
